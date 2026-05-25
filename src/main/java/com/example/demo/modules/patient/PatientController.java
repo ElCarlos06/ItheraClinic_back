@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"*"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/patient")
 @RequiredArgsConstructor
@@ -21,6 +20,11 @@ public class PatientController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> findById(@PathVariable Long id){
         return service.findById(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse> findByName(@RequestParam String name){
+        return service.findByName(name);
     }
 
     @PostMapping("")

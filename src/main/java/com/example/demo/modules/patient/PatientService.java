@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -23,7 +24,8 @@ public class PatientService {
     public ResponseEntity<ApiResponse> findAll(){
         ApiResponse response = new ApiResponse(
                 "Operacion exitosa",
-                repository.findAll(),
+                // Invertir el orden de los pacientes para mostrar los más recientes primero
+                repository.findAll().reversed(),
                 HttpStatus.OK
         );
 
@@ -38,6 +40,25 @@ public class PatientService {
         if (found != null){
             response = new ApiResponse("Operacion exitosa",
                     found, HttpStatus.OK);
+        } else {
+            response = new ApiResponse(
+                    "No encontrado",
+                    true,
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<ApiResponse> findByName(String name) {
+        ApiResponse response = null;
+        List<Patient> patients = repository.findByNameContainingIgnoreCase(name);
+
+        if (patients != null && !patients.isEmpty()){
+            response = new ApiResponse("Operacion exitosa",
+                    patients, HttpStatus.OK);
         } else {
             response = new ApiResponse(
                     "No encontrado",

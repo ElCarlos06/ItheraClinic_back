@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"https://ithera-clinic.vercel.app"}, maxAge = 3600)
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/doctors")
