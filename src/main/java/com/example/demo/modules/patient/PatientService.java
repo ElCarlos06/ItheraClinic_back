@@ -126,6 +126,25 @@ public class PatientService {
                 found.setPhone(dto.getPhone());
                 found.setEmail(dto.getEmail());
                 found.setBirthDate(dto.getBirthDate());
+
+                // Encuentrar el archivo asociado al paciente y actualizarlo
+                PatientFileDTO fileDTO = dto.getFile();
+                if (fileDTO != null){
+                    File file = found.getFile();
+                    if (file != null){
+                        file.setAllergies(fileDTO.getAllergies());
+                        file.setBloodType(fileDTO.getBloodType());
+                    } else {
+                        // Si el paciente no tenía un archivo, creamos uno nuevo
+                        File newFile = new File();
+                        newFile.setAllergies(fileDTO.getAllergies());
+                        newFile.setBloodType(fileDTO.getBloodType());
+                        found.setFile(newFile);
+                    }
+                }
+
+
+
                 repository.saveAndFlush(found);
                 response = new ApiResponse(
                         "Operacion exitosa",

@@ -28,11 +28,11 @@ public class MainSecurity {
 
     private CorsConfigurationSource corsRegistry(){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*"));//desde don de puedo llamar
+        config.setAllowedOrigins(List.of("https://ithera-clinic.vercel.app/", "http://localhost:8081"));//desde don de puedo llamar
         config.setAllowedHeaders(List.of("*"));//que encabezados que puedo enviar
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         //cookies
-        config.setAllowCredentials(false);//si esta en "true", AllowedOrigins no puede ser "*"
+        config.setAllowCredentials(true);//si esta en "true", AllowedOrigins no puede ser "*"
 
         UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
         src.registerCorsConfiguration("/**",config);
